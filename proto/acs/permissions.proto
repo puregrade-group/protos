@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package acs;
+
+option go_package = "github.com/protos;acs";
+
+enum PermissionType {
+  BASE = 0;
+  CUSTOM = 1;
+}
+
+message Permission {
+  optional int32 permission_id = 1;
+  string resource = 2;
+  string action = 3;
+  PermissionType type = 4;
+  string description = 5;
+}
+
+service Permissions {
+  rpc Create (CreatePermissionRequest) returns (CreatePermissionResponse);
+  rpc ReadOwners (ReadPermissionOwnersRequest) returns (ReadPermissionOwnersResponse);
+  rpc CheckPermissions (CheckPermissionsRequest) returns (CheckPermissionsResponse);
+  rpc Delete (DeletePermissionRequest) returns (DeletePermissionResponse);
+  rpc Add (AddPermissionRequest) returns (AddPermissionResponse);
+  rpc Remove (RemovePermissionRequest) returns (RemovePermissionResponse);
+}
+
+message CreatePermissionRequest {
+  string requester_token = 1;
+  Permission permission = 2;
+}
+
+message CreatePermissionResponse {}
+
+message ReadPermissionOwnersRequest {
+  string requester_token = 1;
+  string permission_name = 2;
+}
+
+message ReadPermissionOwnersResponse {
+  repeated int32 app_ids = 1;
+}
+
+message CheckPermissionsRequest {
+  string requester_token = 1;
+  int32 user_id = 2;
+  repeated string permission_names = 3;
+}
+
+message CheckPermissionsResponse {
+  bool ok = 1;
+}
+
+message DeletePermissionRequest {
+  string requester_token = 1;
+  string permission_name = 2;
+}
+
+message DeletePermissionResponse {
+  int32 permission_id = 1;
+}
+
+message AddPermissionRequest {
+  string requester_token = 1;
+  bytes app_id = 2;
+  string permission_name = 3;
+}
+
+message AddPermissionResponse {}
+
+message RemovePermissionRequest {
+  string requester_token = 1;
+  bytes app_id = 2;
+  string permission_name = 3;
+}
+
+message RemovePermissionResponse {}

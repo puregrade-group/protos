@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package acs;
+
+option go_package = "github.com/protos;acs";
+
+message Role {
+  optional int32 role_id = 1;
+  string name = 2;
+  repeated string permissions = 3;
+}
+
+service Roles {
+  rpc Create (CreateRoleRequest) returns (CreateRoleResponse);
+  rpc ReadOwners (ReadRoleOwnersRequest) returns (ReadRoleOwnersResponse);
+  rpc CheckRoles (CheckRolesRequest) returns (CheckRolesResponse);
+  rpc Delete (DeleteRoleRequest) returns (DeleteRoleResponse);
+  rpc Add (AddRoleRequest) returns (AddRoleResponse);
+  rpc Remove (RemoveRoleRequest) returns (RemoveRoleResponse);
+}
+
+message CreateRoleRequest {
+  string requester_token = 1;
+  Role role = 2;
+}
+
+message CreateRoleResponse {}
+
+message ReadRoleOwnersRequest {
+  string requester_token = 1;
+  string role_name = 2;
+}
+
+message ReadRoleOwnersResponse {
+  repeated bytes user_ids = 1;
+}
+
+message CheckRolesRequest {
+  string requester_token = 1;
+  bytes user_id = 2;
+  repeated string role_names = 3;
+}
+
+message CheckRolesResponse {
+  bool ok = 1;
+}
+
+message DeleteRoleRequest {
+  string requester_token = 1;
+  string role_name = 2;
+}
+
+message DeleteRoleResponse {}
+
+message AddRoleRequest {
+  string requester_token = 1;
+  bytes user_id = 2;
+  string role_name = 3;
+}
+
+message AddRoleResponse {}
+
+message RemoveRoleRequest {
+  string requester_token = 1;
+  bytes user_id = 2;
+  string role_name = 3;
+}
+
+message RemoveRoleResponse {}
