@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package acs;
 
-option go_package = "github.com/protos;acs";
+option go_package = "github.com/puregrade-group/protos;acs";
 
 enum PermissionType {
   BASE = 0;

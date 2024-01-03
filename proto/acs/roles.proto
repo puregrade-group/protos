@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package acs;
 
-option go_package = "github.com/protos;acs";
+option go_package = "github.com/puregrade-group/protos;acs";
 
 message Role {
   optional int32 role_id = 1;
