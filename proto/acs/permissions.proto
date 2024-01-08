@@ -44,7 +44,7 @@ message ReadPermissionOwnersResponse {
 
 message CheckPermissionsRequest {
   string requester_token = 1;
-  int32 user_id = 2;
+  int32 app_id = 2;
   repeated string permission_names = 3;
 }
 
