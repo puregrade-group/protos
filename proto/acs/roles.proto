@@ -32,12 +32,12 @@ message ReadRoleOwnersRequest {
 }
 
 message ReadRoleOwnersResponse {
-  repeated bytes user_ids = 1;
+  repeated string user_ids = 1;
 }
 
 message CheckRolesRequest {
   string requester_token = 1;
-  bytes user_id = 2;
+  string user_id = 2;
   repeated string role_names = 3;
 }
 
@@ -54,7 +54,7 @@ message DeleteRoleResponse {}
 
 message AddRoleRequest {
   string requester_token = 1;
-  bytes user_id = 2;
+  string user_id = 2;
   string role_name = 3;
 }
 
@@ -62,7 +62,7 @@ message AddRoleResponse {}
 
 message RemoveRoleRequest {
   string requester_token = 1;
-  bytes user_id = 2;
+  string user_id = 2;
   string role_name = 3;
 }
 

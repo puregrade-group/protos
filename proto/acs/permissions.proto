@@ -63,7 +63,7 @@ message DeletePermissionResponse {
 
 message AddPermissionRequest {
   string requester_token = 1;
-  bytes app_id = 2;
+  int32 app_id = 2;
   string permission_name = 3;
 }
 
@@ -71,7 +71,7 @@ message AddPermissionResponse {}
 
 message RemovePermissionRequest {
   string requester_token = 1;
-  bytes app_id = 2;
+  int32 app_id = 2;
   string permission_name = 3;
 }
 
