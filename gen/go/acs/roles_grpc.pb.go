@@ -23,8 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RolesClient interface {
 	Create(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*CreateRoleResponse, error)
-	ReadOwners(ctx context.Context, in *ReadRoleOwnersRequest, opts ...grpc.CallOption) (*ReadRoleOwnersResponse, error)
-	CheckRoles(ctx context.Context, in *CheckRolesRequest, opts ...grpc.CallOption) (*CheckRolesResponse, error)
+	GetUserRoles(ctx context.Context, in *GetUserRolesRequest, opts ...grpc.CallOption) (*GetUserRolesResponse, error)
 	Delete(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*DeleteRoleResponse, error)
 	Add(ctx context.Context, in *AddRoleRequest, opts ...grpc.CallOption) (*AddRoleResponse, error)
 	Remove(ctx context.Context, in *RemoveRoleRequest, opts ...grpc.CallOption) (*RemoveRoleResponse, error)
@@ -47,18 +46,9 @@ func (c *rolesClient) Create(ctx context.Context, in *CreateRoleRequest, opts ..
 	return out, nil
 }
 
-func (c *rolesClient) ReadOwners(ctx context.Context, in *ReadRoleOwnersRequest, opts ...grpc.CallOption) (*ReadRoleOwnersResponse, error) {
-	out := new(ReadRoleOwnersResponse)
-	err := c.cc.Invoke(ctx, "/acs.Roles/ReadOwners", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *rolesClient) CheckRoles(ctx context.Context, in *CheckRolesRequest, opts ...grpc.CallOption) (*CheckRolesResponse, error) {
-	out := new(CheckRolesResponse)
-	err := c.cc.Invoke(ctx, "/acs.Roles/CheckRoles", in, out, opts...)
+func (c *rolesClient) GetUserRoles(ctx context.Context, in *GetUserRolesRequest, opts ...grpc.CallOption) (*GetUserRolesResponse, error) {
+	out := new(GetUserRolesResponse)
+	err := c.cc.Invoke(ctx, "/acs.Roles/GetUserRoles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -97,8 +87,7 @@ func (c *rolesClient) Remove(ctx context.Context, in *RemoveRoleRequest, opts ..
 // for forward compatibility
 type RolesServer interface {
 	Create(context.Context, *CreateRoleRequest) (*CreateRoleResponse, error)
-	ReadOwners(context.Context, *ReadRoleOwnersRequest) (*ReadRoleOwnersResponse, error)
-	CheckRoles(context.Context, *CheckRolesRequest) (*CheckRolesResponse, error)
+	GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error)
 	Delete(context.Context, *DeleteRoleRequest) (*DeleteRoleResponse, error)
 	Add(context.Context, *AddRoleRequest) (*AddRoleResponse, error)
 	Remove(context.Context, *RemoveRoleRequest) (*RemoveRoleResponse, error)
@@ -112,11 +101,8 @@ type UnimplementedRolesServer struct {
 func (UnimplementedRolesServer) Create(context.Context, *CreateRoleRequest) (*CreateRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedRolesServer) ReadOwners(context.Context, *ReadRoleOwnersRequest) (*ReadRoleOwnersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReadOwners not implemented")
-}
-func (UnimplementedRolesServer) CheckRoles(context.Context, *CheckRolesRequest) (*CheckRolesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckRoles not implemented")
+func (UnimplementedRolesServer) GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
 }
 func (UnimplementedRolesServer) Delete(context.Context, *DeleteRoleRequest) (*DeleteRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
@@ -158,38 +144,20 @@ func _Roles_Create_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Roles_ReadOwners_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReadRoleOwnersRequest)
+func _Roles_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRolesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RolesServer).ReadOwners(ctx, in)
+		return srv.(RolesServer).GetUserRoles(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/acs.Roles/ReadOwners",
+		FullMethod: "/acs.Roles/GetUserRoles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RolesServer).ReadOwners(ctx, req.(*ReadRoleOwnersRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Roles_CheckRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckRolesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RolesServer).CheckRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/acs.Roles/CheckRoles",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RolesServer).CheckRoles(ctx, req.(*CheckRolesRequest))
+		return srv.(RolesServer).GetUserRoles(ctx, req.(*GetUserRolesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -260,12 +228,8 @@ var Roles_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Roles_Create_Handler,
 		},
 		{
-			MethodName: "ReadOwners",
-			Handler:    _Roles_ReadOwners_Handler,
-		},
-		{
-			MethodName: "CheckRoles",
-			Handler:    _Roles_CheckRoles_Handler,
+			MethodName: "GetUserRoles",
+			Handler:    _Roles_GetUserRoles_Handler,
 		},
 		{
 			MethodName: "Delete",

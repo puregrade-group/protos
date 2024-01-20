@@ -12,8 +12,7 @@ message Role {
 
 service Roles {
   rpc Create (CreateRoleRequest) returns (CreateRoleResponse);
-  rpc ReadOwners (ReadRoleOwnersRequest) returns (ReadRoleOwnersResponse);
-  rpc CheckRoles (CheckRolesRequest) returns (CheckRolesResponse);
+  rpc GetUserRoles (GetUserRolesRequest) returns (GetUserRolesResponse);
   rpc Delete (DeleteRoleRequest) returns (DeleteRoleResponse);
   rpc Add (AddRoleRequest) returns (AddRoleResponse);
   rpc Remove (RemoveRoleRequest) returns (RemoveRoleResponse);
@@ -26,23 +25,13 @@ message CreateRoleRequest {
 
 message CreateRoleResponse {}
 
-message ReadRoleOwnersRequest {
-  string requester_token = 1;
-  string role_name = 2;
-}
-
-message ReadRoleOwnersResponse {
-  repeated string user_ids = 1;
-}
-
-message CheckRolesRequest {
+message GetUserRolesRequest {
   string requester_token = 1;
   string user_id = 2;
-  repeated string role_names = 3;
 }
 
-message CheckRolesResponse {
-  bool ok = 1;
+message GetUserRolesResponse {
+  repeated Role roles = 1;
 }
 
 message DeleteRoleRequest {
