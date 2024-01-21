@@ -45,7 +45,7 @@ message DeleteRoleResponse {}
 message AddRoleRequest {
   string requester_token = 1;
   string user_id = 2;
-  string role_name = 3;
+  int32 role_id = 3;
 }
 
 message AddRoleResponse {}
@@ -53,7 +53,7 @@ message AddRoleResponse {}
 message RemoveRoleRequest {
   string requester_token = 1;
   string user_id = 2;
-  string role_name = 3;
+  int32 role_id = 3;
 }
 
 message RemoveRoleResponse {}
