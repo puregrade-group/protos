@@ -31,7 +31,9 @@ message CreatePermissionRequest {
   Permission permission = 2;
 }
 
-message CreatePermissionResponse {}
+message CreatePermissionResponse {
+  int32 permission_id = 1;
+}
 
 message ReadPermissionOwnersRequest {
   string requester_token = 1;
