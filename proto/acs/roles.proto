@@ -8,7 +8,7 @@ message Role {
   optional int32 role_id = 1;
   string name = 2;
   string description = 3;
-  repeated string permissions = 4;
+  repeated int32 permissions = 4;
 }
 
 service Roles {
@@ -24,7 +24,9 @@ message CreateRoleRequest {
   Role role = 2;
 }
 
-message CreateRoleResponse {}
+message CreateRoleResponse {
+  int32 role_id = 1;
+}
 
 message GetUserRolesRequest {
   string requester_token = 1;
